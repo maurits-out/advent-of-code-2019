@@ -23,13 +23,13 @@ public class CrossedWiresTest {
 
         @Test
         void matchesExample() {
-            CrossedWires crossedWires = new CrossedWires(example.get(0), example.get(1));
+            var crossedWires = new CrossedWires(example.get(0), example.get(1));
             assertEquals(135, crossedWires.part1());
         }
 
         @Test
         void actualAnswer() {
-            CrossedWires crossedWires = new CrossedWires(input.get(0), input.get(1));
+            var crossedWires = new CrossedWires(input.get(0), input.get(1));
             assertEquals(3247, crossedWires.part1());
         }
     }
@@ -40,13 +40,13 @@ public class CrossedWiresTest {
 
         @Test
         void matchesExample() {
-            CrossedWires crossedWires = new CrossedWires(example.get(0), example.get(1));
+            var crossedWires = new CrossedWires(example.get(0), example.get(1));
             assertEquals(410, crossedWires.part2());
         }
 
         @Test
         void actualAnswer() {
-            CrossedWires crossedWires = new CrossedWires(input.get(0), input.get(1));
+            var crossedWires = new CrossedWires(input.get(0), input.get(1));
             assertEquals(48054, crossedWires.part2());
         }
     }

@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import support.IO;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static support.IO.readInputAsString;
 
 @DisplayName("Day 2: 1202 Program Alarm")
 public class ProgramAlarmTest {
@@ -15,7 +16,7 @@ public class ProgramAlarmTest {
 
     @BeforeEach
     void setUp() {
-        programAlarm = new ProgramAlarm(IO.readInputAsString("day02-input.txt"));
+        programAlarm = new ProgramAlarm(readInputAsString("day02-input.txt"));
     }
 
     @Nested
