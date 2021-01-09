@@ -4,10 +4,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import support.IO;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.nio.file.Path;
 import java.util.List;
 
 import static java.nio.file.Files.readAllLines;
@@ -47,16 +45,6 @@ class RocketEquationTest {
     }
 
     private List<Integer> readInput() {
-        return readInputAsLines("day01-input.txt").stream().map(Integer::valueOf).collect(toList());
-    }
-
-    private List<String> readInputAsLines(String fileName) {
-        var url = getClass().getResource("/" + fileName);
-        try {
-            var file = Path.of(url.toURI());
-            return readAllLines(file);
-        } catch (URISyntaxException | IOException e) {
-            throw new RuntimeException("Error in reading input: " + e.getMessage(), e);
-        }
+        return IO.readInputAsLines("day01-input.txt").stream().map(Integer::valueOf).collect(toList());
     }
 }

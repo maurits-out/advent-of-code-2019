@@ -1,15 +1,10 @@
 package day02;
 
-import day01.RocketEquation;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import support.IO;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -20,7 +15,7 @@ public class ProgramAlarmTest {
 
     @BeforeEach
     void setUp() {
-        programAlarm = new ProgramAlarm(readInput());
+        programAlarm = new ProgramAlarm(IO.readInputAsString("day02-input.txt"));
     }
 
     @Nested
@@ -42,16 +37,6 @@ public class ProgramAlarmTest {
         void actualAnswer() {
             var answer = programAlarm.part2();
             assertEquals(5379, answer);
-        }
-    }
-
-    private String readInput() {
-        var url = getClass().getResource("/day02-input.txt");
-        try {
-            var file = Path.of(url.toURI());
-            return Files.readString(file).trim();
-        } catch (URISyntaxException | IOException e) {
-            throw new RuntimeException("Error in reading input: " + e.getMessage(), e);
         }
     }
 }
