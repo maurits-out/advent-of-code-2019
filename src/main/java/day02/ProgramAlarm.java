@@ -1,12 +1,11 @@
 package day02;
 
-import support.Pair;
-
 import java.util.Map;
 import java.util.function.BinaryOperator;
 import java.util.regex.Pattern;
 
 import static java.util.stream.IntStream.rangeClosed;
+import static support.Pair.pair;
 
 public class ProgramAlarm {
 
@@ -23,7 +22,7 @@ public class ProgramAlarm {
     }
 
     public int part2() {
-        return rangeClosed(0, 99).boxed().flatMap(noun -> rangeClosed(0, 99).mapToObj(verb -> Pair.of(noun, verb)))
+        return rangeClosed(0, 99).boxed().flatMap(noun -> rangeClosed(0, 99).mapToObj(verb -> pair(noun, verb)))
                 .filter(p -> runProgram(p.first, p.second) == 19690720)
                 .findAny().map(p -> p.first * 100 + p.second)
                 .orElseThrow();

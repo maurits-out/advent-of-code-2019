@@ -29,7 +29,7 @@ public class Pair<T, U> {
         return "(" + first + ", " + second + ")";
     }
 
-    public static <T, U> Pair<T, U> of(T first, U second) {
+    public static <T, U> Pair<T, U> pair(T first, U second) {
         return new Pair<>(first, second);
     }
 }
