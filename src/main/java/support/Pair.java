@@ -1,7 +1,5 @@
 package support;
 
-import day02.ProgramAlarm;
-
 import java.util.Objects;
 
 public class Pair<T, U> {
@@ -24,6 +22,11 @@ public class Pair<T, U> {
     @Override
     public int hashCode() {
         return Objects.hash(first, second);
+    }
+
+    @Override
+    public String toString() {
+        return "(" + first + ", " + second + ")";
     }
 
     public static <T, U> Pair<T, U> of(T first, U second) {
