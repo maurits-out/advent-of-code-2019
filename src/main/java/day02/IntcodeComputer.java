@@ -17,7 +17,7 @@ class IntcodeComputer {
     }
 
     int run(int noun, int verb) {
-        createInitialState(noun, verb);
+        init(noun, verb);
         var ip = 0;
         while (memory[ip] != 99) {
             applyFunction(memory, ip, OPERATORS.get(memory[ip]));
@@ -33,7 +33,7 @@ class IntcodeComputer {
         memory[par3] = function.apply(memory[par1], memory[par2]);
     }
 
-    private void createInitialState(int noun, int verb) {
+    private void init(int noun, int verb) {
         memory = Pattern.compile(",").splitAsStream(program).mapToInt(Integer::valueOf).toArray();
         memory[1] = noun;
         memory[2] = verb;

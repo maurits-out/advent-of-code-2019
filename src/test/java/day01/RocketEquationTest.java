@@ -8,7 +8,6 @@ import support.IO;
 
 import java.util.List;
 
-import static java.nio.file.Files.readAllLines;
 import static java.util.stream.Collectors.toList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
