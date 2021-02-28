@@ -34,7 +34,7 @@ class IntcodeComputer {
     }
 
     private int executeInstruction(int ip) {
-        var opcode = memory[ip % 100];
+        var opcode = memory[ip] % 100;
         switch (opcode) {
             case OPCODE_ADD:
                 memory[memory[ip + 3]] = calc(ip, Integer::sum);
@@ -81,10 +81,10 @@ class IntcodeComputer {
     }
 
     private int parameterMode(int ip, int parameterIndex) {
-        int value = memory[ip] / 100;
-        for (int i = parameterIndex; i > 1; i--) {
-            value /= 10;
+        var mode = memory[ip] / 100;
+        for (var i = parameterIndex; i > 1; i--) {
+            mode /= 10;
         }
-        return value % 10;
+        return mode % 10;
     }
 }
