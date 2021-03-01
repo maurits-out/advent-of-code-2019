@@ -1,12 +1,12 @@
 package day02;
 
 import java.util.Map;
-import java.util.function.BinaryOperator;
+import java.util.function.IntBinaryOperator;
 import java.util.regex.Pattern;
 
 class IntcodeComputer {
 
-    private static final Map<Integer, BinaryOperator<Integer>> OPERATORS =
+    private static final Map<Integer, IntBinaryOperator> OPERATORS =
             Map.of(1, Integer::sum, 2, (x, y) -> x * y);
 
     private final String program;
@@ -26,11 +26,11 @@ class IntcodeComputer {
         return memory[0];
     }
 
-    private void applyFunction(int[] memory, int ip, BinaryOperator<Integer> function) {
+    private void applyFunction(int[] memory, int ip, IntBinaryOperator function) {
         var par1 = memory[ip + 1];
         var par2 = memory[ip + 2];
         var par3 = memory[ip + 3];
-        memory[par3] = function.apply(memory[par1], memory[par2]);
+        memory[par3] = function.applyAsInt(memory[par1], memory[par2]);
     }
 
     private void init(int noun, int verb) {
