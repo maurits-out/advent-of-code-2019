@@ -5,18 +5,18 @@ import java.util.*;
 import static java.util.List.of;
 import static support.Pair.pair;
 
-public class UniversalOrbitMapPart2 {
+class UniversalOrbitMapPart2 {
 
     private static final String START_OBJECT = "YOU";
     private static final String DESTINATION_OBJECT = "SAN";
 
     private final Map<String, List<String>> adjacencyList;
 
-    public UniversalOrbitMapPart2(List<String> input) {
+    UniversalOrbitMapPart2(List<String> input) {
         adjacencyList = parse(input);
     }
 
-    public int part2() {
+    int part2() {
         var queue = new LinkedList<>(of(pair(START_OBJECT, 0)));
         var visited = new HashSet<>(of(START_OBJECT));
         while (true) {

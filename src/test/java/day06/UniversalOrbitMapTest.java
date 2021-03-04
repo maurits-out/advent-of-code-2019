@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static support.IO.readInputAsLines;
 
 @DisplayName("Day 6: Universal Orbit Map")
-public class UniversalOrbitMapTest {
+class UniversalOrbitMapTest {
 
     @Nested
     @DisplayName("Part 1")
