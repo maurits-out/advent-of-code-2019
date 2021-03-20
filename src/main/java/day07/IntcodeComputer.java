@@ -31,38 +31,33 @@ public class IntcodeComputer {
         while (memory[ip] != 99) {
             var opcode = memory[ip] % 100;
             switch (opcode) {
-                case OPCODE_ADD:
+                case OPCODE_ADD -> {
                     memory[memory[ip + 3]] = calc(ip, Integer::sum);
                     ip += 4;
-                    break;
-                case OPCODE_MULTIPLY:
+                }
+                case OPCODE_MULTIPLY -> {
                     memory[memory[ip + 3]] = calc(ip, (n, m) -> n * m);
                     ip += 4;
-                    break;
-                case OPCODE_INPUT:
+                }
+                case OPCODE_INPUT -> {
                     memory[memory[ip + 1]] = inputs[inputIndex++];
                     ip += 2;
-                    break;
-                case OPCODE_OUTPUT:
+                }
+                case OPCODE_OUTPUT -> {
                     output = memory[memory[ip + 1]];
                     ip += 2;
-                    break;
-                case OPCODE_JUMP_IF_TRUE:
-                    ip = jump(ip, n -> n != 0);
-                    break;
-                case OPCODE_JUMP_IF_FALSE:
-                    ip = jump(ip, n -> n == 0);
-                    break;
-                case OPCODE_LESS_THAN:
+                }
+                case OPCODE_JUMP_IF_TRUE -> ip = jump(ip, n -> n != 0);
+                case OPCODE_JUMP_IF_FALSE -> ip = jump(ip, n -> n == 0);
+                case OPCODE_LESS_THAN -> {
                     memory[memory[ip + 3]] = compare(ip, (n, m) -> n < m);
                     ip += 4;
-                    break;
-                case OPCODE_EQUALS:
+                }
+                case OPCODE_EQUALS -> {
                     memory[memory[ip + 3]] = compare(ip, Integer::equals);
                     ip += 4;
-                    break;
-                default:
-                    throw new IllegalStateException("Unknown opcode: " + opcode);
+                }
+                default -> throw new IllegalStateException("Unknown opcode: " + opcode);
             }
         }
         return output;

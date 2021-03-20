@@ -1,10 +1,11 @@
 package day06;
 
+import org.apache.commons.lang3.tuple.Pair;
+
 import java.util.List;
 import java.util.Map;
 
 import static java.util.stream.Collectors.toMap;
-import static support.Pair.pair;
 
 class UniversalOrbitMapPart1 {
 
@@ -30,8 +31,8 @@ class UniversalOrbitMapPart1 {
                 .stream()
                 .map(s -> {
                     var i = s.indexOf(')');
-                    return pair(s.substring(i + 1), s.substring(0, i));
+                    return Pair.of(s.substring(i + 1), s.substring(0, i));
                 })
-                .collect(toMap(l -> l.first, l -> l.second));
+                .collect(toMap(Pair::getLeft, Pair::getRight));
     }
 }

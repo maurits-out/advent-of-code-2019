@@ -1,6 +1,6 @@
 package day03;
 
-import support.Pair;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.*;
 import java.util.regex.Pattern;
@@ -10,16 +10,15 @@ import static java.lang.Math.abs;
 import static java.util.List.of;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.IntStream.rangeClosed;
-import static support.Pair.pair;
 
 public class CrossedWires {
 
     private static final Map<Character, Pair<Integer, Integer>> DIRECTIONS = Map.of(
-            'R', pair(0, 1),
-            'L', pair(0, -1),
-            'U', pair(-1, 0),
-            'D', pair(1, 0));
-    private static final Pair<Integer, Integer> CENTRAL_PORT = pair(0, 0);
+            'R', Pair.of(0, 1),
+            'L', Pair.of(0, -1),
+            'U', Pair.of(-1, 0),
+            'D', Pair.of(1, 0));
+    private static final Pair<Integer, Integer> CENTRAL_PORT = Pair.of(0, 0);
 
     private final List<Pair<Integer, Integer>> path1;
     private final List<Pair<Integer, Integer>> path2;
@@ -53,12 +52,12 @@ public class CrossedWires {
         var direction = DIRECTIONS.get(instruction.charAt(0));
         var steps = parseInt(instruction.substring(1));
         return rangeClosed(1, steps)
-                .mapToObj(s -> pair(current.first + (s * direction.first), current.second + (s * direction.second)))
+                .mapToObj(s -> Pair.of(current.getLeft() + (s * direction.getLeft()), current.getRight() + (s * direction.getRight())))
                 .collect(toList());
     }
 
     private int manhattanDistance(Pair<Integer, Integer> point) {
-        return abs(point.first) + abs(point.second);
+        return abs(point.getLeft()) + abs(point.getRight());
     }
 
     private Set<Pair<Integer, Integer>> intersectionPoints() {
