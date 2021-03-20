@@ -24,8 +24,8 @@ public class AmplificationCircuit {
 
     private Integer amplify(List<Integer> phaseSettingSequence) {
         var output = 0;
-        for (Integer phaseSetting : phaseSettingSequence) {
-            IntcodeComputer computer = new IntcodeComputer(program);
+        for (var phaseSetting : phaseSettingSequence) {
+            var computer = new IntcodeComputer(program);
             output = computer.run(phaseSetting, output);
         }
         return output;

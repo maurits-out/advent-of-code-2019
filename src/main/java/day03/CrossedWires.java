@@ -41,7 +41,7 @@ public class CrossedWires {
 
     private List<Pair<Integer, Integer>> followInstructions(String path) {
         var visited = new LinkedList<>(of(CENTRAL_PORT));
-        for (String instruction : Pattern.compile(",").split(path)) {
+        for (var instruction : Pattern.compile(",").split(path)) {
             var currentPos = visited.getLast();
             var points = move(currentPos, instruction);
             visited.addAll(points);

@@ -17,7 +17,7 @@ public class Asteroids {
 	}
 
 	private int run(int input) {
-		IntcodeComputer computer = new IntcodeComputer(program, input);
+		var computer = new IntcodeComputer(program, input);
 		return computer.run();
 	}
 }
