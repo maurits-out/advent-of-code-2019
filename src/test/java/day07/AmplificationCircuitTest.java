@@ -29,4 +29,24 @@ public class AmplificationCircuitTest {
             assertEquals(expected, amplificationCircuit.part1());
         }
     }
+
+    @Nested
+    @DisplayName("Part 2")
+    class Part2 {
+
+        @Test
+        void matchesExample() {
+            part2(139629729, "3,26,1001,26,-4,26,3,27,1002,27,2,27,1,27,26,27,4,27,1001,28,-1,28,1005,28,6,99,0,0,5");
+        }
+
+        @Test
+        void actualAnswer() {
+            part2(4215746, readInputAsString("day07-input.txt"));
+        }
+
+        private void part2(int expected, String program) {
+            var amplificationCircuit = new AmplificationCircuit(program);
+            assertEquals(expected, amplificationCircuit.part2());
+        }
+    }
 }

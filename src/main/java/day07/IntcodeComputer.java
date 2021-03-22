@@ -1,5 +1,7 @@
 package day07;
 
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.function.BiPredicate;
 import java.util.function.IntBinaryOperator;
 import java.util.function.IntPredicate;
@@ -17,18 +19,27 @@ public class IntcodeComputer {
     private static final int OPCODE_JUMP_IF_FALSE = 6;
     private static final int OPCODE_LESS_THAN = 7;
     private static final int OPCODE_EQUALS = 8;
+    private static final int OPCODE_HALT = 99;
 
     private final int[] memory;
+    private int ip = 0;
+    private boolean halted = false;
     private int output;
+    private final Queue<Integer> inputs = new LinkedList<>();
 
-    public IntcodeComputer(String program) {
+    public IntcodeComputer(String program, int phaseSetting) {
         this.memory = SEPARATOR.splitAsStream(program).mapToInt(Integer::valueOf).toArray();
+        this.inputs.add(phaseSetting);
     }
 
-    public Integer run(int... inputs) {
-        var ip = 0;
-        var inputIndex = 0;
-        while (memory[ip] != 99) {
+    public void run(int input) {
+        inputs.offer(input);
+        run();
+    }
+
+    private void run() {
+        loop:
+        while (true) {
             var opcode = memory[ip] % 100;
             switch (opcode) {
                 case OPCODE_ADD -> {
@@ -40,12 +51,13 @@ public class IntcodeComputer {
                     ip += 4;
                 }
                 case OPCODE_INPUT -> {
-                    memory[memory[ip + 1]] = inputs[inputIndex++];
+                    memory[memory[ip + 1]] = inputs.remove();
                     ip += 2;
                 }
                 case OPCODE_OUTPUT -> {
                     output = memory[memory[ip + 1]];
                     ip += 2;
+                    break loop;
                 }
                 case OPCODE_JUMP_IF_TRUE -> ip = jump(ip, n -> n != 0);
                 case OPCODE_JUMP_IF_FALSE -> ip = jump(ip, n -> n == 0);
@@ -57,10 +69,21 @@ public class IntcodeComputer {
                     memory[memory[ip + 3]] = compare(ip, Integer::equals);
                     ip += 4;
                 }
+                case OPCODE_HALT -> {
+                    halted = true;
+                    break loop;
+                }
                 default -> throw new IllegalStateException("Unknown opcode: " + opcode);
             }
         }
+    }
+
+    public int getOutput() {
         return output;
+    }
+
+    public boolean isHalted() {
+        return halted;
     }
 
     private int compare(int ip, BiPredicate<Integer, Integer> condition) {
