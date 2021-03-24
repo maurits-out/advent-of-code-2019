@@ -3,9 +3,9 @@ package day08;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import support.IO;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static support.IO.readInputAsString;
 
 @DisplayName("Day 8: Space Image Format")
 public class SpaceImageFormatTest {
@@ -16,7 +16,7 @@ public class SpaceImageFormatTest {
 
         @Test
         void actualAnswer() {
-            var input = IO.readInputAsString("day08-input.txt");
+            var input = readInputAsString("day08-input.txt");
             SpaceImageFormat sif = new SpaceImageFormat(input);
             assertEquals(1950, sif.part1());
         }
@@ -28,7 +28,7 @@ public class SpaceImageFormatTest {
 
         @Test
         void actualAnswer() {
-            var input = IO.readInputAsString("day08-input.txt");
+            var input = readInputAsString("day08-input.txt");
             SpaceImageFormat sif = new SpaceImageFormat(input);
             sif.part2();
         }
