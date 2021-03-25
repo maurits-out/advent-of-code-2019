@@ -1,7 +1,5 @@
 package day06;
 
-import org.apache.commons.lang3.tuple.Pair;
-
 import java.util.List;
 import java.util.Map;
 
@@ -27,12 +25,14 @@ class UniversalOrbitMapPart1 {
     }
 
     private Map<String, String> parse(List<String> input) {
+        record Orbit(String object1, String object2) {}
+
         return input
                 .stream()
                 .map(s -> {
                     var i = s.indexOf(')');
-                    return Pair.of(s.substring(i + 1), s.substring(0, i));
+                    return new Orbit(s.substring(i + 1), s.substring(0, i));
                 })
-                .collect(toMap(Pair::getLeft, Pair::getRight));
+                .collect(toMap(Orbit::object1, Orbit::object2));
     }
 }

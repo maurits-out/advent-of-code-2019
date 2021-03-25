@@ -1,7 +1,5 @@
 package day02;
 
-import org.apache.commons.lang3.tuple.Pair;
-
 import static java.util.stream.IntStream.rangeClosed;
 
 public class ProgramAlarm {
@@ -17,11 +15,13 @@ public class ProgramAlarm {
     }
 
     public int part2() {
+        record Tuple(int noun, int verb) {}
+
         return rangeClosed(0, 99)
-                .boxed().flatMap(noun -> rangeClosed(0, 99).mapToObj(verb -> Pair.of(noun, verb)))
-                .filter(p -> runProgram(p.getLeft(), p.getRight()) == 19690720)
+                .boxed().flatMap(noun -> rangeClosed(0, 99).mapToObj(verb -> new Tuple(noun, verb)))
+                .filter(p -> runProgram(p.noun(), p.verb()) == 19690720)
                 .findAny()
-                .map(p -> p.getLeft() * 100 + p.getRight())
+                .map(p -> p.noun() * 100 + p.verb())
                 .orElseThrow();
     }
 
