@@ -16,6 +16,7 @@ class IntcodeComputer {
     private static final int OPCODE_LESS_THAN = 7;
     private static final int OPCODE_EQUALS = 8;
     private static final int OPCODE_ADJUST_RELATIVE_BASE = 9;
+    private static final int OPCODE_HALT = 99;
 
     private final Memory memory;
     private final int input;
@@ -29,7 +30,9 @@ class IntcodeComputer {
         var ip = 0L;
         var relativeBase = 0L;
         var output = new LinkedList<String>();
-        while (memory.read(ip) != 99) {
+
+        loop:
+        while (true) {
             var opcode = memory.read(ip) % 100;
             switch ((int) opcode) {
                 case OPCODE_ADD -> {
@@ -66,6 +69,9 @@ class IntcodeComputer {
                 case OPCODE_ADJUST_RELATIVE_BASE -> {
                     relativeBase += getParameter(ip, relativeBase, 1);
                     ip += 2;
+                }
+                case OPCODE_HALT -> {
+                    break loop;
                 }
                 default -> throw new IllegalStateException("Unknown opcode: " + opcode);
             }

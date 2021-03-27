@@ -45,6 +45,8 @@ public class SpaceImageFormat {
     }
 
     private long countColor(int layer, char color) {
-        return range(layer * IMAGE_SIZE, (layer + 1) * IMAGE_SIZE).filter(i -> input[i] == color).count();
+        return range(layer * IMAGE_SIZE, (layer + 1) * IMAGE_SIZE)
+                .filter(i -> input[i] == color)
+                .count();
     }
 }
