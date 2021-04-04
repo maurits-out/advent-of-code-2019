@@ -2,8 +2,11 @@ package day11;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static day11.Direction.NORTH;
+import static java.lang.System.lineSeparator;
+import static java.util.stream.Collectors.joining;
 import static java.util.stream.IntStream.rangeClosed;
 
 public class SpacePolicePart2 {
@@ -16,13 +19,14 @@ public class SpacePolicePart2 {
 
     void paint() {
         var blackPanels = run();
-        draw(blackPanels);
+        System.out.println(toGrid(blackPanels));
     }
 
     private Set<Position> run() {
         var blackPanels = new HashSet<Position>();
         var position = new Position(0, 0);
         var direction = NORTH;
+
         while (true) {
             computer.addInput(calculateInput(position, blackPanels));
             var outputs = computer.run(2);
@@ -37,24 +41,26 @@ public class SpacePolicePart2 {
             direction = turn(direction, outputs.get(1));
             position = position.move(direction);
         }
+        
         return blackPanels;
     }
 
-    private void draw(Set<Position> blackPanels) {
-        int rows = blackPanels.stream().mapToInt(Position::row).max().orElseThrow();
-        int columns = blackPanels.stream().mapToInt(Position::column).max().orElseThrow();
+    private String toGrid(Set<Position> blackPanels) {
+        var rows = blackPanels.stream().mapToInt(Position::row).max().orElseThrow();
+        var columns = blackPanels.stream().mapToInt(Position::column).max().orElseThrow();
 
-        rangeClosed(0, rows).forEach(r -> {
-            var row = new StringBuilder();
-            rangeClosed(0, columns).forEach(c -> {
-                if (blackPanels.contains(new Position(r, c))) {
-                    row.append(' ');
-                } else {
-                    row.append('#');
-                }
-            });
-            System.out.println(row);
-        });
+        return rangeClosed(0, rows)
+                .mapToObj(r -> rangeClosed(0, columns)
+                        .mapToObj(c -> toChar(blackPanels, r, c))
+                        .reduce(new StringBuilder(), StringBuilder::append, StringBuilder::append))
+                .collect(joining(lineSeparator()));
+    }
+
+    private char toChar(Set<Position> blackPanels, int r, int c) {
+        if (blackPanels.contains(new Position(r, c))) {
+            return ' ';
+        }
+        return '#';
     }
 
     private boolean paintBlack(Long paintValue) {

@@ -18,6 +18,7 @@ public class SpacePolicePart1 {
         var painted = new HashSet<Position>();
         var position = new Position(0, 0);
         var direction = NORTH;
+
         while (true) {
             computer.addInput(calculateInput(position, whitePanels));
             var outputs = computer.run(2);
