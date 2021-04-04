@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static day11.Direction.NORTH;
-import static java.util.Comparator.naturalOrder;
+import static java.util.stream.IntStream.rangeClosed;
 
 public class SpacePolicePart2 {
 
@@ -15,6 +15,11 @@ public class SpacePolicePart2 {
     }
 
     void paint() {
+        var blackPanels = run();
+        draw(blackPanels);
+    }
+
+    private Set<Position> run() {
         var blackPanels = new HashSet<Position>();
         var position = new Position(0, 0);
         var direction = NORTH;
@@ -32,29 +37,24 @@ public class SpacePolicePart2 {
             direction = turn(direction, outputs.get(1));
             position = position.move(direction);
         }
-        draw(blackPanels);
+        return blackPanels;
     }
 
     private void draw(Set<Position> blackPanels) {
-        int rows = blackPanels.stream().map(Position::row).max(naturalOrder()).orElseThrow();
-        int columns = blackPanels.stream().map(Position::column).max(naturalOrder()).orElseThrow();
-        char[][] grid = new char[rows + 1][columns + 1];
-        for (int r = 0; r <= rows; r++) {
-            for (int c = 0; c <= columns; c++) {
-                if (blackPanels.contains(new Position(r, c))) {
-                    grid[r][c] = ' ';
-                } else {
-                    grid[r][c] = '#';
-                }
-            }
-        }
+        int rows = blackPanels.stream().mapToInt(Position::row).max().orElseThrow();
+        int columns = blackPanels.stream().mapToInt(Position::column).max().orElseThrow();
 
-        for (int r = 0; r <= rows; r++) {
-            for (int c = 0; c <= columns; c++) {
-                System.out.printf("%c", grid[r][c]);
-            }
-            System.out.println();
-        }
+        rangeClosed(0, rows).forEach(r -> {
+            var row = new StringBuilder();
+            rangeClosed(0, columns).forEach(c -> {
+                if (blackPanels.contains(new Position(r, c))) {
+                    row.append(' ');
+                } else {
+                    row.append('#');
+                }
+            });
+            System.out.println(row);
+        });
     }
 
     private boolean paintBlack(Long paintValue) {
