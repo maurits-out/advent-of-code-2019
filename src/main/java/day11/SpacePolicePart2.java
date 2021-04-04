@@ -45,11 +45,11 @@ public class SpacePolicePart2 {
     }
 
     private String toGrid(Set<Position> blackPanels) {
-        var rows = blackPanels.stream().mapToInt(Position::row).max().orElseThrow();
-        var columns = blackPanels.stream().mapToInt(Position::column).max().orElseThrow();
+        var rowStats = blackPanels.stream().mapToInt(Position::row).summaryStatistics();
+        var columnStats = blackPanels.stream().mapToInt(Position::column).summaryStatistics();
 
-        return rangeClosed(0, rows)
-                .mapToObj(r -> rangeClosed(0, columns)
+        return rangeClosed(rowStats.getMin(), rowStats.getMax())
+                .mapToObj(r -> rangeClosed(columnStats.getMin(), columnStats.getMax())
                         .mapToObj(c -> toChar(blackPanels, r, c))
                         .reduce(new StringBuilder(), StringBuilder::append, StringBuilder::append))
                 .collect(joining(lineSeparator()));
