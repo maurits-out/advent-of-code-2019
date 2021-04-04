@@ -30,12 +30,16 @@ public class SpaceImageFormat {
 
     String part2() {
         String image = range(0, IMAGE_SIZE)
-                .mapToObj(this::color)
-                .map(c -> c == WHITE ? "*" : " ")
-                .collect(joining());
+                .mapToObj(i -> convert(color(i)))
+                .reduce(new StringBuilder(), StringBuilder::append, StringBuilder::append)
+                .toString();
         return range(0, image.length() / IMAGE_WIDTH)
                 .mapToObj(row -> image.substring(row * IMAGE_WIDTH, (row + 1) * IMAGE_WIDTH))
                 .collect(joining(lineSeparator()));
+    }
+
+    private char convert(Character color) {
+        return color == WHITE ? '*' : ' ';
     }
 
     private char color(int pixel) {
