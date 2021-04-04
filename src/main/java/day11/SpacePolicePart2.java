@@ -28,7 +28,7 @@ public class SpacePolicePart2 {
 
         while (true) {
             computer.addInput(calculateInput(position, blackPanels));
-            var outputs = computer.run(2);
+            var outputs = computer.run();
             if (outputs.size() < 2) {
                 break;
             }

@@ -19,6 +19,8 @@ class IntcodeComputer {
     private static final int OPCODE_ADJUST_RELATIVE_BASE = 9;
     private static final int OPCODE_HALT = 99;
 
+    private static final int MAX_OUTPUTS = 2;
+
     private final Memory memory;
     private final LinkedList<Long> inputs = new LinkedList<>();
     private long ip = 0L;
@@ -32,11 +34,11 @@ class IntcodeComputer {
         inputs.add(input);
     }
 
-    List<Long> run(int maxOutputs) {
+    List<Long> run() {
         var outputs = new LinkedList<Long>();
         var halted = false;
 
-        while (outputs.size() < maxOutputs && !halted) {
+        while (outputs.size() < MAX_OUTPUTS && !halted) {
             var opcode = memory.read(ip) % 100;
             switch ((int) opcode) {
                 case OPCODE_ADD -> {

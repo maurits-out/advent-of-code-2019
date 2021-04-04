@@ -21,7 +21,7 @@ public class SpacePolicePart1 {
 
         while (true) {
             computer.addInput(calculateInput(position, whitePanels));
-            var outputs = computer.run(2);
+            var outputs = computer.run();
             if (outputs.size() < 2) {
                 break;
             }
@@ -37,6 +37,7 @@ public class SpacePolicePart1 {
             direction = turn(direction, outputs.get(1));
             position = position.move(direction);
         }
+
         return painted.size();
     }
 
