@@ -30,7 +30,13 @@ public class SpacePoliceTest {
         @Test
         void actualAnswer() {
             SpacePolicePart2 part2 = new SpacePolicePart2(input);
-            part2.paint();
+            assertEquals("""
+                     ###  #### ###  #  # #### #  # ###   ##   #
+                    ##  # #    #  # #  #    # #  # #  # #  #  \s
+                    ####  ###  #  # #  #   #  #  # #  # #     \s
+                     #  # #    ###  #  #  #   #  # ###  #     #
+                     #  # #    #    #  # #    #  # #    #  # ##
+                    ####  #    #     ##  ####  ##  #     ##  ##""", part2.paint());
         }
     }
 }

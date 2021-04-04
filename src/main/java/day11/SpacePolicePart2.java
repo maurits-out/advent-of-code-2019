@@ -16,9 +16,9 @@ public class SpacePolicePart2 {
         computer = new IntcodeComputer(program);
     }
 
-    void paint() {
+    String paint() {
         var blackPanels = run();
-        System.out.println(toGrid(blackPanels));
+        return toGrid(blackPanels);
     }
 
     private Set<Position> run() {
