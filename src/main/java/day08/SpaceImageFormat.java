@@ -1,5 +1,6 @@
 package day08;
 
+import static java.lang.System.lineSeparator;
 import static java.util.Comparator.comparingLong;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.IntStream.range;
@@ -27,14 +28,14 @@ public class SpaceImageFormat {
         return countColor(layer, WHITE) * countColor(layer, TRANSPARENT);
     }
 
-    void part2() {
+    String part2() {
         String image = range(0, IMAGE_SIZE)
                 .mapToObj(this::color)
                 .map(c -> c == WHITE ? "*" : " ")
                 .collect(joining());
-        range(0, image.length() / IMAGE_WIDTH)
+        return range(0, image.length() / IMAGE_WIDTH)
                 .mapToObj(row -> image.substring(row * IMAGE_WIDTH, (row + 1) * IMAGE_WIDTH))
-                .forEach(System.out::println);
+                .collect(joining(lineSeparator()));
     }
 
     private char color(int pixel) {

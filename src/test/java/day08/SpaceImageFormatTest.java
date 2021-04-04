@@ -30,8 +30,13 @@ public class SpaceImageFormatTest {
         void actualAnswer() {
             var input = readInputAsString("day08-input.txt");
             SpaceImageFormat sif = new SpaceImageFormat(input);
-            sif.part2();
+            assertEquals("""
+                    **** *  *  **  *  * *   \s
+                    *    * *  *  * *  * *   \s
+                    ***  **   *  * **** *   \s
+                    *    * *  **** *  * *   \s
+                    *    * *  *  * *  * *   \s
+                    *    *  * *  * *  * ****\s""", sif.part2());
         }
     }
-
 }
