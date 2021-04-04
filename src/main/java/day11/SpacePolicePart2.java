@@ -56,10 +56,7 @@ public class SpacePolicePart2 {
     }
 
     private char toChar(Set<Position> blackPanels, int r, int c) {
-        if (blackPanels.contains(new Position(r, c))) {
-            return ' ';
-        }
-        return '#';
+        return blackPanels.contains(new Position(r, c)) ? ' ' : '#';
     }
 
     private boolean paintBlack(Long paintValue) {
@@ -71,16 +68,10 @@ public class SpacePolicePart2 {
     }
 
     private Direction turn(Direction direction, Long output) {
-        if (turnLeft(output)) {
-            return direction.turnLeft();
-        }
-        return direction.turnRight();
+        return turnLeft(output) ? direction.turnLeft() : direction.turnRight();
     }
 
     private int calculateInput(Position position, Set<Position> blackPanels) {
-        if (blackPanels.contains(position)) {
-            return 0;
-        }
-        return 1;
+        return blackPanels.contains(position) ? 0 : 1;
     }
 }
