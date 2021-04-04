@@ -17,7 +17,7 @@ public class SpaceImageFormatTest {
         @Test
         void actualAnswer() {
             var input = readInputAsString("day08-input.txt");
-            SpaceImageFormat sif = new SpaceImageFormat(input);
+            var sif = new SpaceImageFormat(input);
             assertEquals(1950, sif.part1());
         }
     }
@@ -29,7 +29,7 @@ public class SpaceImageFormatTest {
         @Test
         void actualAnswer() {
             var input = readInputAsString("day08-input.txt");
-            SpaceImageFormat sif = new SpaceImageFormat(input);
+            var sif = new SpaceImageFormat(input);
             assertEquals("""
                     **** *  *  **  *  * *   \s
                     *    * *  *  * *  * *   \s
