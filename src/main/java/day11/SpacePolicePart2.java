@@ -1,7 +1,9 @@
 package day11;
 
 import java.util.HashSet;
+import java.util.IntSummaryStatistics;
 import java.util.Set;
+import java.util.function.ToIntFunction;
 
 import static day11.Direction.NORTH;
 import static java.lang.System.lineSeparator;
@@ -45,14 +47,18 @@ public class SpacePolicePart2 {
     }
 
     private String toGrid(Set<Position> blackPanels) {
-        var rowStats = blackPanels.stream().mapToInt(Position::row).summaryStatistics();
-        var columnStats = blackPanels.stream().mapToInt(Position::column).summaryStatistics();
+        var rowStats = stats(blackPanels, Position::row);
+        var columnStats = stats(blackPanels, Position::column);
 
         return rangeClosed(rowStats.getMin(), rowStats.getMax())
                 .mapToObj(r -> rangeClosed(columnStats.getMin(), columnStats.getMax())
                         .mapToObj(c -> toChar(blackPanels, r, c))
                         .reduce(new StringBuilder(), StringBuilder::append, StringBuilder::append))
                 .collect(joining(lineSeparator()));
+    }
+
+    private IntSummaryStatistics stats(Set<Position> positions, ToIntFunction<Position> function) {
+        return positions.stream().mapToInt(function).summaryStatistics();
     }
 
     private char toChar(Set<Position> blackPanels, int r, int c) {
