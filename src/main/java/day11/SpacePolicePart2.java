@@ -2,7 +2,6 @@ package day11;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import static day11.Direction.NORTH;
 import static java.lang.System.lineSeparator;
@@ -41,7 +40,7 @@ public class SpacePolicePart2 {
             direction = turn(direction, outputs.get(1));
             position = position.move(direction);
         }
-        
+
         return blackPanels;
     }
 
