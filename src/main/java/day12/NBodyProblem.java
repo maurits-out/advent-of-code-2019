@@ -1,82 +1,54 @@
 package day12;
 
-import java.util.List;
-import java.util.Set;
-import java.util.function.Function;
-
-import static day12.MyVector.ZERO;
 import static java.lang.Integer.signum;
-import static java.util.stream.Collectors.toUnmodifiableSet;
+import static java.lang.Math.abs;
 
 public class NBodyProblem {
 
-    private final List<MyVector> initialPositions;
-    private final int numIterations;
+    public int part1(int[][] positions, int iterations) {
+        var moons = positions.length;
+        var axes = positions[0].length;
 
-    public NBodyProblem(List<MyVector> initialPositions, int numIterations) {
-        this.initialPositions = initialPositions;
-        this.numIterations = numIterations;
-    }
-
-    record Moon(MyVector pos, MyVector vel) {
-
-        int totalEnergy() {
-            return pos.sumOfAbsoluteValues() * vel.sumOfAbsoluteValues();
+        var vel = createVelocityVectors(moons, axes);
+        for (var i = 0; i < iterations; i++) {
+            // apply gravity
+            for (var m = 0; m < moons; m++) {
+                for (var n = 0; n < moons; n++) {
+                    for (var a = 0; a < axes; a++) {
+                        vel[m][a] += signum(positions[n][a] - positions[m][a]);
+                    }
+                }
+            }
+            // apply velocity
+            for (var m = 0; m < moons; m++) {
+                for (var a = 0; a < axes; a++) {
+                    positions[m][a] += vel[m][a];
+                }
+            }
         }
+
+        return calcTotalEnergy(positions, moons, axes, vel);
     }
 
-    public int part1() {
-        Set<Moon> moons = initialState();
-        for (int i = 0; i < numIterations; i++) {
-            moons = step(moons);
+    private int[][] createVelocityVectors(int numMoons, int numAxes) {
+        int[][] vel = new int[numMoons][];
+        for (var m = 0; m < numMoons; m++) {
+            vel[m] = new int[numAxes];
         }
-        return moons.stream().mapToInt(Moon::totalEnergy).sum();
+        return vel;
     }
 
-    private Set<Moon> initialState() {
-        return initialPositions.stream().map(pos -> new Moon(pos, ZERO)).collect(toUnmodifiableSet());
-    }
-
-    private Set<Moon> step(Set<Moon> allMoons) {
-        Function<Moon, Moon> applyGravity = moon -> applyGravity(moon, allMoons);
-        return allMoons
-                .stream()
-                .map(applyGravity.andThen(this::applyVelocity))
-                .collect(toUnmodifiableSet());
-    }
-
-    private Moon applyVelocity(Moon moon) {
-        MyVector vel = moon.vel();
-        MyVector currentPos = moon.pos();
-        MyVector newPos = new MyVector(
-                calculateNewPosition(currentPos.x(), vel.x()),
-                calculateNewPosition(currentPos.y(), vel.y()),
-                calculateNewPosition(currentPos.z(), vel.z())
-        );
-        return new Moon(newPos, vel);
-    }
-
-    private int calculateNewPosition(int position, int velocity) {
-        return position + velocity;
-    }
-
-    private Moon applyGravity(Moon moonToUpdate, Set<Moon> allMoons) {
-        return allMoons.stream().reduce(moonToUpdate, this::applyGravity, this::applyGravity);
-    }
-
-    private Moon applyGravity(Moon moon, Moon other) {
-        MyVector currentPos = moon.pos();
-        MyVector currentVel = moon.vel();
-        MyVector otherPos = other.pos();
-        MyVector newVel = new MyVector(
-                calculateNewVelocity(currentVel.x(), currentPos.x(), otherPos.x()),
-                calculateNewVelocity(currentVel.y(), currentPos.y(), otherPos.y()),
-                calculateNewVelocity(currentVel.z(), currentPos.z(), otherPos.z())
-        );
-        return new Moon(currentPos, newVel);
-    }
-
-    private int calculateNewVelocity(int velocity, int position, int positionOfOtherMoon) {
-        return velocity + signum(positionOfOtherMoon - position);
+    private int calcTotalEnergy(int[][] positions, int numMoons, int numAxes, int[][] vel) {
+        var total = 0;
+        for (var m = 0; m < numMoons; m++) {
+            var potential = 0;
+            var kinetic = 0;
+            for (var a = 0; a < numAxes; a++) {
+                potential += abs(positions[m][a]);
+                kinetic += abs(vel[m][a]);
+            }
+            total += potential * kinetic;
+        }
+        return total;
     }
 }
