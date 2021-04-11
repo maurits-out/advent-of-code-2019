@@ -1,13 +1,26 @@
 package day12;
 
+import java.util.function.Supplier;
+
 import static java.lang.Integer.signum;
 import static java.lang.Math.abs;
+import static java.util.stream.IntStream.range;
 
 public class NBodyProblem {
 
-    public int part1(int[][] pos, int iterations) {
-        var vel = createVelocityVectors(pos.length, pos[0].length);
-        for (var i = 0; i < iterations; i++) {
+    public int part1(Supplier<int[][]> input, int iterations) {
+        return simulate(input, new Part1(iterations));
+    }
+
+    public long part2(Supplier<int[][]> input) {
+        return simulate(input, new Part2(input.get()));
+    }
+
+    private <T> T simulate(Supplier<int[][]> input, State<T> state) {
+        var pos = input.get();
+        var vel = range(0, pos.length).mapToObj(m -> new int[pos[0].length]).toArray(int[][]::new);
+
+        while (!state.halt()) {
             // apply gravity
             for (var m = 0; m < pos.length; m++) {
                 for (var n = 0; n < pos.length; n++) {
@@ -22,30 +35,9 @@ public class NBodyProblem {
                     pos[m][a] += vel[m][a];
                 }
             }
+            state.update(pos, vel);
         }
 
-        return calcTotalEnergy(pos, vel);
-    }
-
-    private int[][] createVelocityVectors(int moons, int axes) {
-        int[][] vel = new int[moons][];
-        for (var m = 0; m < moons; m++) {
-            vel[m] = new int[axes];
-        }
-        return vel;
-    }
-
-    private int calcTotalEnergy(int[][] positions, int[][] vel) {
-        var total = 0;
-        for (var m = 0; m < positions.length; m++) {
-            var potential = 0;
-            var kinetic = 0;
-            for (var a = 0; a < positions[m].length; a++) {
-                potential += abs(positions[m][a]);
-                kinetic += abs(vel[m][a]);
-            }
-            total += potential * kinetic;
-        }
-        return total;
+        return state.getResult(pos, vel);
     }
 }
