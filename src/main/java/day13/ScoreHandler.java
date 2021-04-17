@@ -3,7 +3,7 @@ package day13;
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.lang.Long.signum;
+import static java.lang.Integer.signum;
 
 class ScoreHandler implements IOHandler {
 
