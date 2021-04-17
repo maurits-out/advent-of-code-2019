@@ -7,19 +7,19 @@ import static java.lang.Long.signum;
 
 class ScoreHandler implements IOHandler {
 
-    private final List<Long> buffer = new ArrayList<>(3);
+    private final List<Integer> buffer = new ArrayList<>(3);
 
-    private long ballPosition;
-    private long paddlePosition;
-    private long score = 0;
+    private int ballPosition;
+    private int paddlePosition;
+    private int score;
 
     @Override
-    public long getInput() {
+    public int getInput() {
         return signum(ballPosition - paddlePosition);
     }
 
     @Override
-    public void output(long value) {
+    public void output(int value) {
         buffer.add(value);
         if (buffer.size() == 3) {
             handleOutputTriple();
@@ -40,7 +40,7 @@ class ScoreHandler implements IOHandler {
         }
     }
 
-    public long getScore() {
+    public int getScore() {
         return score;
     }
 }

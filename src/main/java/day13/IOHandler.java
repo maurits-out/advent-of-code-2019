@@ -2,7 +2,7 @@ package day13;
 
 interface IOHandler {
 
-    long getInput();
+    int getInput();
 
-    void output(long value);
+    void output(int value);
 }

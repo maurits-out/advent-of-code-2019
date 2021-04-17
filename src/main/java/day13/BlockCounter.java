@@ -8,12 +8,12 @@ class BlockCounter implements IOHandler {
     private int blockCount = 0;
 
     @Override
-    public long getInput() {
+    public int getInput() {
         throw new NoSuchElementException("No input available");
     }
 
     @Override
-    public void output(long value) {
+    public void output(int value) {
         if (elementCount == 2) {
             if (value == 2) {
                 blockCount++;

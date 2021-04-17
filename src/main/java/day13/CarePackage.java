@@ -15,7 +15,7 @@ class CarePackage {
         return counter.getBlockCount();
     }
 
-    long part2() {
+    int part2() {
         var handler = new ScoreHandler();
         var computer = new IntcodeComputer(program, handler);
         computer.setMemory(0, 2);

@@ -1,8 +1,8 @@
 package day13;
 
 import java.util.function.BiPredicate;
-import java.util.function.LongBinaryOperator;
-import java.util.function.LongPredicate;
+import java.util.function.IntBinaryOperator;
+import java.util.function.IntPredicate;
 
 class IntcodeComputer {
 
@@ -19,15 +19,15 @@ class IntcodeComputer {
 
     private final Memory memory;
     private final IOHandler ioHandler;
-    private long ip = 0L;
-    private long relativeBase = 0L;
+    private int ip = 0;
+    private int relativeBase = 0;
 
     IntcodeComputer(String program, IOHandler ioHandler) {
         this.memory = new Memory(program);
         this.ioHandler = ioHandler;
     }
 
-    void setMemory(long address, long value) {
+    void setMemory(int address, int value) {
         memory.write(address, value);
     }
 
@@ -35,9 +35,9 @@ class IntcodeComputer {
         var halted = false;
         while (!halted) {
             var opcode = memory.read(ip) % 100;
-            switch ((int) opcode) {
+            switch (opcode) {
                 case OPCODE_ADD -> {
-                    var outcome = calc(ip, relativeBase, Long::sum);
+                    var outcome = calc(ip, relativeBase, Integer::sum);
                     writeToMemory(ip, relativeBase, 3, outcome);
                     ip += 4;
                 }
@@ -64,7 +64,7 @@ class IntcodeComputer {
                     ip += 4;
                 }
                 case OPCODE_EQUALS -> {
-                    var outcome = compare(ip, relativeBase, Long::equals);
+                    var outcome = compare(ip, relativeBase, Integer::equals);
                     writeToMemory(ip, relativeBase, 3, outcome);
                     ip += 4;
                 }
@@ -78,13 +78,13 @@ class IntcodeComputer {
         }
     }
 
-    private int compare(long ip, long relativeBase, BiPredicate<Long, Long> condition) {
+    private int compare(int ip, int relativeBase, BiPredicate<Integer, Integer> condition) {
         var operand1 = getParameter(ip, relativeBase, 1);
         var operand2 = getParameter(ip, relativeBase, 2);
         return condition.test(operand1, operand2) ? 1 : 0;
     }
 
-    private long jump(long ip, long relativeBase, LongPredicate jumpCondition) {
+    private int jump(int ip, int relativeBase, IntPredicate jumpCondition) {
         var operand = getParameter(ip, relativeBase, 1);
         if (jumpCondition.test(operand)) {
             return getParameter(ip, relativeBase, 2);
@@ -92,13 +92,13 @@ class IntcodeComputer {
         return ip + 3;
     }
 
-    private long calc(long ip, long relativeBase, LongBinaryOperator operator) {
+    private int calc(int ip, int relativeBase, IntBinaryOperator operator) {
         var operand1 = getParameter(ip, relativeBase, 1);
         var operand2 = getParameter(ip, relativeBase, 2);
-        return operator.applyAsLong(operand1, operand2);
+        return operator.applyAsInt(operand1, operand2);
     }
 
-    private long getParameter(long ip, long relativeBase, int parameterIndex) {
+    private int getParameter(int ip, int relativeBase, int parameterIndex) {
         var value = memory.read(ip + parameterIndex);
         var mode = parameterMode(ip, parameterIndex);
         return switch (mode) {
@@ -109,7 +109,7 @@ class IntcodeComputer {
         };
     }
 
-    private void writeToMemory(long ip, long relativeBase, int parameterIndex, long value) {
+    private void writeToMemory(int ip, int relativeBase, int parameterIndex, int value) {
         var address = memory.read(ip + parameterIndex);
         var mode = parameterMode(ip, parameterIndex);
         switch (mode) {
@@ -120,11 +120,11 @@ class IntcodeComputer {
         }
     }
 
-    private int parameterMode(long ip, int parameterIndex) {
+    private int parameterMode(int ip, int parameterIndex) {
         var mode = memory.read(ip) / 100;
         for (var i = parameterIndex; i > 1; i--) {
             mode /= 10;
         }
-        return (int) (mode % 10);
+        return mode % 10;
     }
 }
